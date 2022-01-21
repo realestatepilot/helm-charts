@@ -1,0 +1,5 @@
+#seems to ignored https://github.com/helm/chart-testing-action/issues/79
+helm-extra-args: --timeout 600s
+chart-dirs:
+  - charts
+target-branch: main
