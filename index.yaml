@@ -3,6 +3,18 @@ entries:
   restic-backup:
   - apiVersion: v2
     appVersion: 0.6.7
+    created: "2022-01-21T19:55:56.82091775Z"
+    description: A Helm chart for Kubernetes
+    digest: be35be27bd35b2b3cf0ad2a835c602b7c6df9794487b342570e1ad524aa6ee55
+    maintainers:
+    - name: tgruenert
+    name: restic-backup
+    type: application
+    urls:
+    - https://github.com/realestatepilot/helm-charts/releases/download/restic-backup-0.1.2/restic-backup-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.6.7
     created: "2022-01-21T16:57:34.997677813Z"
     description: A Helm chart for Kubernetes
     digest: 61a46bce6b03bcf28d639d153805b2ba5035694f5da0eaf21779f920b656e6ed
@@ -25,4 +37,4 @@ entries:
     urls:
     - https://github.com/realestatepilot/helm-charts/releases/download/restic-backup-0.1.0/restic-backup-0.1.0.tgz
     version: 0.1.0
-generated: "2022-01-21T16:57:34.997693313Z"
+generated: "2022-01-21T19:55:56.82093585Z"
