@@ -69,9 +69,9 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-# MUST be set because of hostpath binding
-nodeSelector:
-  testnodelabel: "true"
+# SHOULD be set in case of hostpath binding
+# nodeSelector:
+#   testnodelabel: "true"
 
 tolerations: []
 
