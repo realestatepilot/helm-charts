@@ -1,0 +1,14 @@
+
+resticPassword: superSecret
+
+# s3 options are required
+s3:
+  bucketName: "restic-backup-example-name"
+  region: eu-central-1
+  accessKey: zuagng
+  secretKey: geHeim
+  url: https://s3.eu-central-1.wasabisys.com/
+
+monitor:
+  ingress:
+    enabled: false

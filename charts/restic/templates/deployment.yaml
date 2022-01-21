@@ -1,0 +1,155 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "restic.fullname" . }}
+  labels:
+    {{- include "restic.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      {{- include "restic.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "restic.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "restic.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-backup
+          image: "{{ .Values.backup.image.repository }}:{{ .Values.backup.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.backup.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          command: 
+            - /scripts/backup_client.py
+            - schedule
+{{ toYaml (required "schedules are required" .Values.schedules) | indent 12 }}
+          env:
+            - name: TZ
+              value: Europe/Berlin
+            - name: RESTIC_REPOSITORY
+              value: {{ include "restic.repositoryUrl" . }}
+            - name: RESTIC_PASSWORD
+              value: {{ required "resticPassword is required" .Values.resticPassword }}
+            - name: BACKUP_HOSTNAME
+              value: {{ .Release.Name }}-backup
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ required "s3.accessKey is required" .Values.s3.accessKey }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ required "s3.secretKey is required" .Values.s3.secretKey }}
+            - name: BACKUP_CONFIG
+              value: /config/backup.yaml
+          volumeMounts:
+            - name: backup
+              mountPath: /backup
+            - name: backup-config
+              mountPath: /config
+            {{ if .Values.scripts }}            
+            - name: customscripts
+              mountPath: /customscripts
+            {{ end }}
+  {{- $root := . -}}
+  {{- range $i,$k := .Values.volumes }}
+            - name: backup-vol-{{ $i }}
+              mountPath: /backup/{{ tpl $k.name $root }}
+              readOnly: true
+  {{ end }}
+  {{- if .Values.restore }}
+            - name: restore
+              mountPath: /restore
+  {{ end }}
+  {{- if .Values.cacheDir }}
+            - name: cachedir
+              mountPath: /restic-cache
+  {{ end }}
+          securityContext:
+              {{- toYaml .Values.securityContext | nindent 12 }}
+
+        - name: {{ .Chart.Name }}-monitor
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.monitor.image.repository }}:{{ required "required monitor.image.tag" .Values.monitor.image.tag }}"
+          imagePullPolicy: {{ .Values.monitor.image.pullPolicy }}
+          env:
+            - name: AWS_REGION
+              value: {{ .Values.s3.region }}
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ required "s3.accessKey" .Values.s3.accessKey }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ required "s3.secretKey" .Values.s3.secretKey }}
+            - name: S3_URL
+              value: {{ required "s3.url" .Values.s3.url }}
+            - name: BUCKET_NAMES
+              value: {{ .Values.s3.bucketName }}
+
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+      volumes:
+        - name: backup
+          emptyDir: {}
+        - name: backup-config
+          configMap:
+{{ if .Values.configmap }}
+            name: "{{ tpl .Values.configmap . }}"
+{{ else }}
+            name: {{ include "restic.name" . }}-config
+{{ end }}
+{{ if .Values.scripts }}
+        - name: customscripts
+          configMap:
+            name: {{ include "restic.name" . }}-scripts
+{{ end }}
+{{ range $i,$k := .Values.volumes }}
+        - name: backup-vol-{{ $i }}
+          hostPath:
+            path: "{{ tpl $k.hostPath $root }}"
+{{ end }}
+{{ if .Values.restore }}
+        - name: restore
+          hostPath:
+            path: {{ .Values.restore.hostPath }}
+{{ end }}
+{{ if .Values.cacheDir }}
+        - name: cachedir
+          hostPath:
+            path: {{ .Values.cacheDir.hostPath }}
+{{ end }}
+
+      {{ $nodeSelecor := required "nodeSelector is required" .Values.nodeSelector}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
