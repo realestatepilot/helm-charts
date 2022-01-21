@@ -71,7 +71,7 @@ resources: {}
 
 # MUST be set because of hostpath binding
 nodeSelector:
-  kubernetes.io/hostname: example-host
+  testnodelabel: "true"
 
 tolerations: []
 
