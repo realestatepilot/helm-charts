@@ -96,15 +96,15 @@ spec:
 
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{.Values.monitor.service.port}}
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /metrics
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /metrics
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
