@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "restic.fullname" . }}:{{ .Values.monitor.service.port }}']
+      args: ['{{ include "restic.fullname" . }}:{{ .Values.monitor.service.port }}/metrics']
   restartPolicy: Never
