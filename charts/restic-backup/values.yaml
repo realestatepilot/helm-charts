@@ -71,7 +71,7 @@ resources: {}
 
 # MUST be set because of hostpath binding
 nodeSelector:
-  testnodelabel: true
+  testnodelabel: "true"
 
 tolerations: []
 
