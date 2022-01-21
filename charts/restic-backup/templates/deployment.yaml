@@ -140,7 +140,6 @@ spec:
             path: {{ .Values.cacheDir.hostPath }}
 {{ end }}
 
-      {{ $nodeSelecor := required "nodeSelector is required" .Values.nodeSelector}}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
