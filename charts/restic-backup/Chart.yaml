@@ -1,5 +1,5 @@
 apiVersion: v2
-name: restic
+name: restic-backup
 description: A Helm chart for Kubernetes
 
 maintainers:
