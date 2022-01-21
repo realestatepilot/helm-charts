@@ -6,7 +6,7 @@ backup:
 
   image:
     repository: evermind/restic-backupclient
-    tag: 0.6.5
+    tag: 0.6.7
 
 monitor:
   image:
