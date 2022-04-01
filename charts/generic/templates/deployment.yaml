@@ -1,84 +1,61 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "deployment.fullname" . }}
+  name: {{ include "generic.fullname" . }}
   labels:
-{{ include "deployment.labels" . | indent 4 }}
+    {{- include "generic.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "deployment.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- include "generic.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        app.kubernetes.io/name: {{ include "deployment.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- include "generic.selectorLabels" . | nindent 8 }}
     spec:
-    {{- with .Values.imagePullSecrets }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- end }}
+      serviceAccountName: {{ include "generic.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{- if .Values.volumes }}
-      volumes:
-        {{- range .Values.volumes }}
-        - name: {{ required "volumes[].name" .name }}
-          hostPath:
-            path: {{ required "volumes[].name" .hostPath }}
-        {{- end }}
-      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.ports }}
-          {{- with .Values.env }}
-          env:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
           ports:
-            {{- range .Values.ports }}
-            - containerPort: {{ required "ports[].port" .port }}
-              protocol: {{ default "TCP" .protocol }}
-              {{- if .name }}
-              name: {{ .name }}
-              {{- end }}
-              {{- if .hostPort }}
-              hostPort: {{ .hostPort }}
-              {{- end }}
-            {{- end }}
-          {{- end }}
-          {{- with .Values.livenessProbe }}
+            - name: http
+              containerPort: 80
+              protocol: TCP
           livenessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.readinessProbe }}
+            httpGet:
+              path: /
+              port: http
           readinessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- if .Values.volumes }}
-          volumeMounts:
-            {{- range .Values.volumes }}
-            - name: {{ required "volumes[].name" .name }}
-              mountPath: {{ required "volumes[].mountPath" .mountPath }}
-            {{- end }}
-          {{- end }}
+            httpGet:
+              path: /
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- with .Values.affinity }}
+      {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
+      {{- end }}
+      {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- end }}
