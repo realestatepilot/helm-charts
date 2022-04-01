@@ -1,0 +1,22 @@
+{{- if or .Values.service.enabled .Values.ingress.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "deployment.fullname" . }}
+  labels:
+{{ include "deployment.labels" . | indent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    {{- range (required "ports are required if service is enabled" .Values.ports) }}
+    - port: {{ required "ports[].port" .port }}
+      protocol: {{ default "TCP" .protocol }}
+      targetPort: {{ default .port .name }}
+      {{- if .name }}
+      name: {{ .name }}
+      {{- end }}
+    {{- end }}
+  selector:
+    app.kubernetes.io/name: {{ include "deployment.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
