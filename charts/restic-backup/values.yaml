@@ -83,9 +83,9 @@ schedules:
   - "@daily"
 
 # value mandatory until ticket is solved
+# adapt to your own needs!
 # https://github.com/evermind/docker-restic-backupclient/issues/10
-
-resticPruneTimeout: ""
+resticPruneTimeout: "12h"
 
 # cacheDir:
 #   hostPath: "/data/restic-cache-dir"
