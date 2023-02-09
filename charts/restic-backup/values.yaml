@@ -6,7 +6,7 @@ backup:
 
   image:
     repository: evermind/restic-backupclient
-    tag: 0.6.7
+    tag: 0.7.0
 
 monitor:
   image:
@@ -82,6 +82,10 @@ affinity: {}
 schedules:
   - "@daily"
 
+# value mandatory until ticket is solved
+# adapt to your own needs!
+# https://github.com/evermind/docker-restic-backupclient/issues/10
+resticPruneTimeout: "12h"
 
 # cacheDir:
 #   hostPath: "/data/restic-cache-dir"

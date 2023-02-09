@@ -43,6 +43,9 @@ spec:
               value: {{ include "restic.repositoryUrl" . }}
             - name: RESTIC_PASSWORD
               value: {{ required "resticPassword is required" .Values.resticPassword }}
+            # mandatory until https://github.com/evermind/docker-restic-backupclient/issues/10 is solved
+            - name: RESTIC_PRUNE_TIMEOUT
+              value: {{ required "resticPruneTimeout is required" .Values.resticPruneTimeout }}              
             - name: BACKUP_HOSTNAME
               value: {{ .Release.Name }}-backup
             - name: AWS_ACCESS_KEY_ID
