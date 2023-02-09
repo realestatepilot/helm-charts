@@ -82,6 +82,10 @@ affinity: {}
 schedules:
   - "@daily"
 
+# value mandatory until ticket is solved
+# https://github.com/evermind/docker-restic-backupclient/issues/10
+
+resticPruneTimeout: ""
 
 # cacheDir:
 #   hostPath: "/data/restic-cache-dir"
