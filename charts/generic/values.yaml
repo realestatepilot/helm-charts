@@ -14,6 +14,15 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
