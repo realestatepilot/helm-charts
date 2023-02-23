@@ -48,6 +48,8 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
+  # if using nodePort -> set type to 'NodePort'
+  nodePort: []
 
 ingress:
   enabled: false

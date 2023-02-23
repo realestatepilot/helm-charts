@@ -11,5 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+      {{- with .Values.service.nodePort }}
+      nodePort: {{ . }}
+      {{- end }}      
+      
   selector:
     {{- include "generic.selectorLabels" . | nindent 4 }}

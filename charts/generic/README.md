@@ -6,5 +6,8 @@
 
 # Changes
 
+0.1.5
+* nodePort configurable
+
 0.1.4
 * probes configurable in values.yaml
