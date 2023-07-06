@@ -6,6 +6,9 @@
 
 # Changes
 
+0.1.6
+* make probes and ressources optional
+
 0.1.5
 * nodePort configurable
 
