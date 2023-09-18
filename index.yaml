@@ -85,6 +85,17 @@ entries:
     urls:
     - https://github.com/realestatepilot/helm-charts/releases/download/generic-0.1.0/generic-0.1.0.tgz
     version: 0.1.0
+  grafana-agent-config:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2023-09-18T08:44:06.01536115Z"
+    description: Configure Application Podlogs and Metrics
+    digest: fd2c2904a011dcc29c72b20e89d8a5f0219e63c5bc9ee55b3373f71e43de0356
+    name: grafana-agent-config
+    type: application
+    urls:
+    - https://github.com/realestatepilot/helm-charts/releases/download/grafana-agent-config-0.1.0/grafana-agent-config-0.1.0.tgz
+    version: 0.1.0
   restic-backup:
   - apiVersion: v2
     appVersion: 0.6.7
@@ -146,4 +157,4 @@ entries:
     urls:
     - https://github.com/realestatepilot/helm-charts/releases/download/restic-backup-0.1.0/restic-backup-0.1.0.tgz
     version: 0.1.0
-generated: "2023-07-06T07:24:38.402536608Z"
+generated: "2023-09-18T08:44:06.015395651Z"
