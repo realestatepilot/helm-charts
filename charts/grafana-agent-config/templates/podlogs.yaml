@@ -1,0 +1,16 @@
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: PodLogs
+metadata:
+  labels:
+    instance: {{ .Values.agent.instance }}
+  name: {{ include "grafana-agent-config.fullname" . }}
+spec:
+  pipelineStages:
+{{ toYaml .Values.logs.pipelineStages | indent 4 }}
+
+{{- with .Values.namespaceSelector }}
+  namespaceSelector:
+{{ toYaml .Values.namespaceSelector | indent 4 }}
+{{- end}}
+  selector:
+    matchLabels: {}

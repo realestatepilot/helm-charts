@@ -1,0 +1,13 @@
+agent:
+  instance: primary
+
+logs: 
+  pipelineStages:
+    # - docker: {}
+    - cri: {}
+
+  # als default wird der Release-Namespace angenommen
+  namespaceSelector: {}
+    # matchNames:
+    # - teamproq-multidomain
+
