@@ -5,6 +5,8 @@
   * no persistence
 
 # Changes
+0.1.7
+* add support for env
 
 0.1.6
 * make probes and ressources optional
