@@ -5,6 +5,9 @@
   * no persistence
 
 # Changes
+0.1.9
+* fix non empty securityContext
+
 0.1.8
 * add support for command + args
 
