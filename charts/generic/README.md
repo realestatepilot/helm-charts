@@ -5,6 +5,9 @@
   * no persistence
 
 # Changes
+0.1.8
+* add support for command + args
+
 0.1.7
 * add support for env
 
