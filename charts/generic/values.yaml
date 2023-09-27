@@ -18,6 +18,14 @@ fullnameOverride: ""
 #   - name: dies
 #     value: "das"
 
+# command: ["/bin/sh", "-c"]
+# args:
+#   - echo starting;
+#     ls -la /backups;
+#     mysqldump --host=... -r /backups/file.sql db_name;
+#     ls -la /backups;
+#     echo done;  
+
 livenessProbe: {}
   # httpGet:
   #   path: /
