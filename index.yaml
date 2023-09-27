@@ -3,6 +3,18 @@ entries:
   generic:
   - apiVersion: v2
     appVersion: "1"
+    created: "2023-09-27T15:35:39.426382082Z"
+    description: A generic Helm chart for Kubernetes
+    digest: 21252d3dcaedf413029783210e8880b2a631400ce97293b5b47002a863b5d5a0
+    maintainers:
+    - name: tgruenert
+    name: generic
+    type: application
+    urls:
+    - https://github.com/realestatepilot/helm-charts/releases/download/generic-0.1.8/generic-0.1.8.tgz
+    version: 0.1.8
+  - apiVersion: v2
+    appVersion: "1"
     created: "2023-09-19T20:38:54.499216561Z"
     description: A generic Helm chart for Kubernetes
     digest: db69a5c49acad5536cac72c840d749e12e0686378b96462a39b959b6ab77c98e
@@ -169,4 +181,4 @@ entries:
     urls:
     - https://github.com/realestatepilot/helm-charts/releases/download/restic-backup-0.1.0/restic-backup-0.1.0.tgz
     version: 0.1.0
-generated: "2023-09-19T20:38:54.499368663Z"
+generated: "2023-09-27T15:35:39.426468282Z"
