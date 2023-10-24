@@ -1,0 +1,59 @@
+{{- if .Values.container.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "static-persistence.fullname" . }}-{{.Values.pvc.name}}
+  labels:
+    {{- include "static-persistence.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "static-persistence.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.container.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "static-persistence.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.container.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "static-persistence.serviceAccountName" . }}
+      {{- with .Values.container.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: shell
+          securityContext:
+            {{- toYaml .Values.container.securityContext | nindent 12 }}
+          image: "{{ .Values.container.image.repository }}:{{ .Values.container.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.container.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.container.resources | nindent 12 }}
+          volumeMounts:
+          - mountPath: /data
+            name: data-volume
+      volumes:
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: {{ include "static-persistence.pvcname" . }}
+      {{- with .Values.container.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.container.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.container.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+{{- end }}

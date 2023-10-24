@@ -1,0 +1,14 @@
+pvc:
+  enabled: true
+  # name must set
+  name: "mariadb"
+  annotations: {}
+  requests:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ceph-filesystem
+pv:
+  enabled: true
+container: 
+  enabled: true

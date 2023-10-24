@@ -1,0 +1,13 @@
+{{/*
+Expand the name of the chart.
+*/}}
+{{- define "static-persistence.pvcname" -}}
+{{- printf "%s-%s" .Release.Name .Values.name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Expand the name of the chart.
+*/}}
+{{- define "static-persistence.pvname" -}}
+{{- printf "%s-%s-%s" .Release.Namespace .Release.Name .Values.name | trunc 63 | trimSuffix "-" }}
+{{- end }}

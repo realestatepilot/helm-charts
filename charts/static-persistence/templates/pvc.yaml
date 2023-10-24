@@ -1,0 +1,38 @@
+{{- if .Values.pv.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "static-persistence.pvname" . }}
+spec:
+  capacity:
+    storage: {{ .Values.pvc.requests.storage }}
+  # volumeMode field requires BlockVolume Alpha feature gate to be enabled.
+  volumeMode: Filesystem
+  {{- with .Values.pvc.accessModes }}
+  accessModes:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: {{.Values.pvc.storageClassName }}
+
+# TODO Reservieren des PV für das spezielle PVC
+# https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reserving-a-persistentvolume
+# sonst kann bei parallelem Betrieb ein anderes Deployment das PV schnappen
+
+{{- end }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "static-persistence.pvcname" . }}
+spec:
+  {{- with .Values.pvc.accessModes }}
+  accessModes:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  volumeName: {{ include "static-persistence.pvname" . }}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.requests.storage }}
+  storageClassName: {{.Values.pvc.storageClassName }}

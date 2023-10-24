@@ -1,0 +1,59 @@
+# definiert den Namens des Volumes innerhalb der Anwendung, also z.B "mariadb" oder "cache"
+# der Name wird erweitert um den Release-Namen sowie bei Bedarf um den Namespace
+name: mariadb-data
+
+pvc:
+  enabled: true
+  # name must set
+  # name: "dummy"
+  annotations: {}
+  requests:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""
+pv:
+  enabled: false
+  annotations: {}
+  retain: Delete
+  storageClass: dummy
+  
+  # # not supported yet
+  # nodeSelector: {}
+  # # not supported yet
+  # tolerations: []
+  # # not supported yet
+  # affinity: {}
+
+container:
+  enabled: false
+  image:
+    repository: debian
+    tag: 12-slim
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: 30m
+      memory: 60M
+  
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
