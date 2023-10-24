@@ -31,7 +31,10 @@ spec:
   accessModes:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  volumeName: {{ .Release.Namespace }}-{{ include "static-persistence.fullname" . }}
+
+  #  pvc pending on provisioned volumes like ceph
+  # volumeName: not allowd to set in our context
+  
   resources:
     requests:
       storage: {{ .Values.pvc.requests.storage }}
