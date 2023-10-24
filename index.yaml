@@ -193,4 +193,15 @@ entries:
     urls:
     - https://github.com/realestatepilot/helm-charts/releases/download/restic-backup-0.1.0/restic-backup-0.1.0.tgz
     version: 0.1.0
-generated: "2023-09-27T16:17:19.336325647Z"
+  static-persistence:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2023-10-24T11:52:37.975386772Z"
+    description: decouple persistence from application lifecycle
+    digest: 2cf021f5acf6950558039f632b86c858b2450af7be79054a26c5c7292dcd94ce
+    name: static-persistence
+    type: application
+    urls:
+    - https://github.com/realestatepilot/helm-charts/releases/download/static-persistence-0.1.0/static-persistence-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-10-24T11:52:37.975431472Z"
