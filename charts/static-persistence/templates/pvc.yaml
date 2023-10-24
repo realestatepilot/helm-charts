@@ -36,3 +36,4 @@ spec:
     requests:
       storage: {{ .Values.pvc.requests.storage }}
   storageClassName: {{.Values.pvc.storageClassName }}
+  volumeMode: Filesystem
