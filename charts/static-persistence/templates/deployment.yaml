@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "static-persistence.fullname" . }}-{{.Values.pvc.name}}
+  name: {{ include "static-persistence.fullname" . }}
   labels:
     {{- include "static-persistence.labels" . | nindent 4 }}
 spec:
@@ -42,7 +42,7 @@ spec:
       volumes:
       - name: data-volume
         persistentVolumeClaim:
-          claimName: {{ include "static-persistence.pvcname" . }}
+          claimName: {{ include "static-persistence.fullname" . }}
       {{- with .Values.container.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

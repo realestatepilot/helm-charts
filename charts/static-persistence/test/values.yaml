@@ -1,7 +1,7 @@
+nameOverride: mariadatenbnk
+
 pvc:
   enabled: true
-  # name must set
-  name: "mariadb"
   annotations: {}
   requests:
     storage: 2Gi

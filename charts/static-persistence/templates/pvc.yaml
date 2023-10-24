@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: {{ include "static-persistence.pvname" . }}
+  name: {{ .Release.Namespace }}-{{ include "static-persistence.fullname" . }}
 spec:
   capacity:
     storage: {{ .Values.pvc.requests.storage }}
@@ -25,13 +25,13 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "static-persistence.pvcname" . }}
+  name: {{ include "static-persistence.fullname" . }}
 spec:
   {{- with .Values.pvc.accessModes }}
   accessModes:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  volumeName: {{ include "static-persistence.pvname" . }}
+  volumeName: {{ .Release.Namespace }}-{{ include "static-persistence.fullname" . }}
   resources:
     requests:
       storage: {{ .Values.pvc.requests.storage }}
