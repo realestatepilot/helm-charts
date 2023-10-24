@@ -39,6 +39,8 @@ spec:
           volumeMounts:
           - mountPath: /data
             name: data-volume
+          command: ["/bin/bash", "-c","--"]
+          args: ["sleep infinity"]
       volumes:
       - name: data-volume
         persistentVolumeClaim:
