@@ -196,6 +196,16 @@ entries:
   static-persistence:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2023-10-24T12:56:51.26081888Z"
+    description: decouple persistence from application lifecycle
+    digest: bcb2e54a13153e08eb9740434c02dedcb2f0358a4670976f4a190701079fbe9c
+    name: static-persistence
+    type: application
+    urls:
+    - https://github.com/realestatepilot/helm-charts/releases/download/static-persistence-0.1.1/static-persistence-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2023-10-24T11:52:37.975386772Z"
     description: decouple persistence from application lifecycle
     digest: 2cf021f5acf6950558039f632b86c858b2450af7be79054a26c5c7292dcd94ce
@@ -204,4 +214,4 @@ entries:
     urls:
     - https://github.com/realestatepilot/helm-charts/releases/download/static-persistence-0.1.0/static-persistence-0.1.0.tgz
     version: 0.1.0
-generated: "2023-10-24T11:52:37.975431472Z"
+generated: "2023-10-24T12:56:51.260982082Z"
