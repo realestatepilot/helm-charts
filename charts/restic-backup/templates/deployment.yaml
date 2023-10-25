@@ -29,7 +29,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}-backup
           image: "{{ .Values.backup.image.repository }}:{{ .Values.backup.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.backup.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.backup.image.pullPolicy | default "IfNotPresent" }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           command: 
@@ -59,20 +59,20 @@ spec:
               mountPath: /backup
             - name: backup-config
               mountPath: /config
-            {{ if .Values.scripts }}            
+            {{- if .Values.scripts }}            
             - name: customscripts
               mountPath: /customscripts
-            {{ end }}
+            {{- end }}
   {{- $root := . -}}
   {{- range $i,$k := .Values.volumes }}
             - name: backup-vol-{{ $i }}
               mountPath: /backup/{{ tpl $k.name $root }}
               readOnly: true
-  {{ end }}
+  {{- end }}
   {{- if .Values.restore }}
             - name: restore
               mountPath: /restore
-  {{ end }}
+  {{- end }}
   {{- if .Values.cacheDir }}
             - name: cachedir
               mountPath: /restic-cache
@@ -117,31 +117,37 @@ spec:
           emptyDir: {}
         - name: backup-config
           configMap:
-{{ if .Values.configmap }}
+{{- if .Values.configmap }}
             name: "{{ tpl .Values.configmap . }}"
-{{ else }}
+{{- else }}
             name: {{ include "restic.name" . }}-config
-{{ end }}
-{{ if .Values.scripts }}
+{{- end }}
+{{- if .Values.scripts }}
         - name: customscripts
           configMap:
             name: {{ include "restic.name" . }}-scripts
-{{ end }}
-{{ range $i,$k := .Values.volumes }}
+{{- end }}
+{{- range $i,$k := .Values.volumes }}
         - name: backup-vol-{{ $i }}
+          {{- if $k.hostPath }}
           hostPath:
             path: "{{ tpl $k.hostPath $root }}"
-{{ end }}
-{{ if .Values.restore }}
+          {{- end}}
+          {{- if $k.persistentVolumeClaim }}
+          persistentVolumeClaim:
+            claimName: {{$k.persistentVolumeClaim.claimName}}
+          {{- end }}
+{{- end }}
+{{- if .Values.restore }}
         - name: restore
           hostPath:
             path: {{ .Values.restore.hostPath }}
-{{ end }}
-{{ if .Values.cacheDir }}
+{{- end }}
+{{- if .Values.cacheDir }}
         - name: cachedir
           hostPath:
             path: {{ .Values.cacheDir.hostPath }}
-{{ end }}
+{{- end }}
 
       {{- with .Values.nodeSelector }}
       nodeSelector:

@@ -4,10 +4,6 @@
 
 backup:
 
-  image:
-    repository: evermind/restic-backupclient
-    # tag: 0.7.1 # use chart version by default
-    pullPolicy: IfNotPresent
 
 monitor:
   image:
@@ -58,13 +54,17 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-resources: 
-  limits:
-    cpu: 200m
-    memory: 6Gi
-  requests:
-    cpu: 20m
-    memory: 256Mi
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 # SHOULD be set in case of hostpath binding
 # nodeSelector:
@@ -120,12 +120,12 @@ s3:
 #       - ^his_
 #       - ^all_his
 #
-# volumes: List of optional volumes - all values are parsed as template.
-#   - name: data # the name is used as mount point directory name at /backup/{{ name }}
-#     hostPath: /path/to/backup
-  # - name: pvc-data-volume
-  #   persistentVolumeClaim:
-  #     claimName: existingClaimName
+volumes: # List of optional volumes - all values are parsed as template.
+  - name: data # the name is used as mount point directory name at /backup/{{ name }}
+    hostPath: /path/to/backup
+  - name: pvc-data-volume
+    persistentVolumeClaim:
+      claimName: existingClaimName
 
 
 # Optional Values
