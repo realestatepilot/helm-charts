@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.2.1
+* probes at restic monitor errors to fast, sensibility reduced
+
 ## 0.2.0
 Breaking Change
 * set default ressource requests

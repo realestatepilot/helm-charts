@@ -102,10 +102,18 @@ spec:
               containerPort: {{.Values.monitor.service.port}}
               protocol: TCP
           livenessProbe:
+            initialDelaySeconds: 5
+            failureThreshold: 3
+            timeoutSeconds: 10
+            periodSeconds: 300
             httpGet:
               path: /metrics
               port: http
           readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            timeoutSeconds: 10
+            periodSeconds: 60
             httpGet:
               path: /metrics
               port: http
