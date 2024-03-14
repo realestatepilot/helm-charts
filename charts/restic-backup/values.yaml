@@ -16,11 +16,14 @@ backup:
   dumpVolume:
     enabled: true
     persistentVolumeClaim:
-      storageClassName: local-slow-path
+      storageClassName: local-path-slow
       storage: 10G
-
+  
+  imagePullSecrets:
+    - name: registry-wolke8
+  
   image:
-    repository: evermind/restic-backupclient
+    repository: registry.wolke8.it/realestatepilot-common/wolke8/docker-restic-backupclient
     # tag: 0.7.1 # use chart version by default
     pullPolicy: IfNotPresent
 

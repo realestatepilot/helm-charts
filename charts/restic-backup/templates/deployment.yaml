@@ -10,6 +10,9 @@ spec:
   selector:
     matchLabels:
       {{- include "restic.selectorLabels" . | nindent 6 }}
+  strategy:
+    # damit das PVC zunächst freigegeben werden kann, bevor der neue POD es benötigt 
+    type: Recreate
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -19,7 +22,7 @@ spec:
       labels:
         {{- include "restic.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with .Values.backup.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}

@@ -2,6 +2,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+imagePullSecrets:
+  - name: registry-wolke8
+
 backup:
 
 
@@ -123,9 +126,9 @@ s3:
 volumes: # List of optional volumes - all values are parsed as template.
   - name: data # the name is used as mount point directory name at /backup/{{ name }}
     hostPath: /path/to/backup
-  - name: pvc-data-volume
-    persistentVolumeClaim:
-      claimName: existingClaimName
+  # - name: pvc-data-volume
+  #   persistentVolumeClaim:
+  #     claimName: existingClaimName
   # - name: provisioned-data # the name is used as mount point directory name at /backup/{{ name }}
   #   persistentVolumeClaim:
   #     storageClassName: local-slow-path

@@ -15,6 +15,8 @@ Deployment start container with endless sleep. Velero can execute command within
 
 ## 0.3.0
 * mode for using within velero pre-backup-hook
+* image is from private repo now. you will need imagePullSecrets
+
 
 
 ## 0.2.1
