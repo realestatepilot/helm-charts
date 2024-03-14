@@ -33,9 +33,14 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           command: 
+{{- if eq "standalone" .Values.backup.mode }}
             - /scripts/backup_client.py
             - schedule
 {{ toYaml (required "schedules are required" .Values.schedules) | indent 12 }}
+{{- else if eq "dump-only" .Values.backup.mode }}
+            - sleep
+            - infinity
+{{- end }}
           env:
             - name: TZ
               value: Europe/Berlin
@@ -80,11 +85,12 @@ spec:
           securityContext:
               {{- toYaml .Values.securityContext | nindent 12 }}
 
+  {{- if eq "standalone" .Values.backup.mode }}
         - name: {{ .Chart.Name }}-monitor
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.monitor.image.repository }}:{{ required "required monitor.image.tag" .Values.monitor.image.tag }}"
-          imagePullPolicy: {{ .Values.monitor.image.pullPolicy }}
+          imagePullPolicy: {{ default "IfNotPresent" .Values.monitor.image.pullPolicy  }}
           env:
             - name: AWS_REGION
               value: {{ .Values.s3.region }}
@@ -119,10 +125,16 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+  {{- end }} 
 
       volumes:
         - name: backup
+          {{- if .Values.backup.dumpVolume.enabled }}
+          persistentVolumeClaim:
+            claimName:  {{ include "restic.fullname" $ }}-dbdump
+          {{- else }}
           emptyDir: {}
+          {{- end }}
         - name: backup-config
           configMap:
 {{- if .Values.configmap }}
@@ -141,9 +153,14 @@ spec:
           hostPath:
             path: "{{ tpl $k.hostPath $root }}"
           {{- end}}
-          {{- if $k.persistentVolumeClaim }}
+          {{- if  $k.persistentVolumeClaim }}
           persistentVolumeClaim:
+            {{- if $k.persistentVolumeClaim.claimName }}
             claimName: {{$k.persistentVolumeClaim.claimName}}
+            {{- else if $k.persistentVolumeClaim.storageClassName }}
+            claimName: {{ include "restic.fullname" $ }}-{{$k.name}}
+            {{- end }}
+
           {{- end }}
 {{- end }}
 {{- if .Values.restore }}

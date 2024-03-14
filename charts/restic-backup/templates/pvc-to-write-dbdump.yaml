@@ -1,0 +1,14 @@
+{{- if .Values.backup.dumpVolume.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "restic.fullname" $ }}-dbdump
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: {{ default "8Gi"  .Values.backup.dumpVolume.persistentVolumeClaim.storage }}
+  storageClassName: {{ .Values.backup.dumpVolume.persistentVolumeClaim.storageClassName }}
+{{- end }}

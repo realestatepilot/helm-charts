@@ -1,3 +1,4 @@
+  {{- if eq "standalone" .Values.backup.mode }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,3 +14,4 @@ spec:
       name: http
   selector:
     {{- include "restic.selectorLabels" . | nindent 4 }}
+{{- end }}

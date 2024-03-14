@@ -1,3 +1,5 @@
+{{- if eq "standalone" .Values.backup.mode }}
+
 {{- if .Values.monitor.ingress.enabled -}}
 {{- $fullName := include "restic.fullname" . -}}
 {{- $svcPort := .Values.monitor.service.port -}}
@@ -58,4 +60,6 @@ spec:
               {{- end }}
           {{- end }}
     {{- end }}
+{{- end }}
+
 {{- end }}

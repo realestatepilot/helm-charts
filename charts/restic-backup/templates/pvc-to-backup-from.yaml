@@ -1,0 +1,16 @@
+{{- range $i := .Values.volumes }}
+{{- if and $i.persistentVolumeClaim $i.persistentVolumeClaim.storageClassName }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "restic.fullname" $ }}-{{$i.name}}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: {{ default "8Gi"  $i.persistentVolumeClaim.storage }}
+  storageClassName: {{$i.persistentVolumeClaim.storageClassName}}
+{{- end }}
+{{- end }}

@@ -1,4 +1,21 @@
+
+# Backup with DBDump and (otional restic)
+
+* use PVC for temporary dbdump-files with `backup.dumpVolume`
+
+## operation mode
+
+### standalone
+Use schedule plan to trigger backup regulary
+
+### dump-only
+Deployment start container with endless sleep. Velero can execute command within container.
+
 # Change Log
+
+## 0.3.0
+* mode for using within velero pre-backup-hook
+
 
 ## 0.2.1
 * probes at restic monitor errors to fast, sensibility reduced

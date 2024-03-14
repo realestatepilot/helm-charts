@@ -4,6 +4,21 @@
 
 backup:
 
+  # mode 
+  # standalone (default) - schedules backup and saves via restic to s3
+  # dump-only - uses database dump function and save dump to (mounted) path /backup. ends with error-code from dump
+
+  # mode: standalone 
+  mode: dump-only
+
+  # define an extra volume for database dumps
+  # it is mounted on /backup/dbdump
+  dumpVolume:
+    enabled: true
+    persistentVolumeClaim:
+      storageClassName: local-slow-path
+      storage: 10G
+
   image:
     repository: evermind/restic-backupclient
     # tag: 0.7.1 # use chart version by default

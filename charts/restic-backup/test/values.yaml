@@ -126,6 +126,10 @@ volumes: # List of optional volumes - all values are parsed as template.
   - name: pvc-data-volume
     persistentVolumeClaim:
       claimName: existingClaimName
+  # - name: provisioned-data # the name is used as mount point directory name at /backup/{{ name }}
+  #   persistentVolumeClaim:
+  #     storageClassName: local-slow-path
+  #     storage: 10G
 
 
 # Optional Values
