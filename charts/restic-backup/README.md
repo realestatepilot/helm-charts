@@ -10,14 +10,18 @@ Use schedule plan to trigger backup regulary
 
 ### dump-only
 Deployment start container with endless sleep. Velero can execute command within container.
+Pod Annotations will be added for velero pre backup hook to backup databases as configured.
+
+At restore via velero the dump files will be restored at /backup/dbdump. Operator hat to do a database restore by hand at this time. 
 
 # Change Log
+
+## 0.3.1
+* velero annotation for preBackupHook 
 
 ## 0.3.0
 * mode for using within velero pre-backup-hook
 * image is from private repo now. you will need imagePullSecrets
-
-
 
 ## 0.2.1
 * probes at restic monitor errors to fast, sensibility reduced
