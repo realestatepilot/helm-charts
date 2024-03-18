@@ -12,7 +12,7 @@ backup:
   mode: dump-only
 
   # how long take database dump in maximum
-  dumpTimeout: "300"
+  dumpTimeout: "15m"
 
   # define an extra volume for database dumps
   # it is mounted on /backup/dbdump
