@@ -11,6 +11,8 @@ backup:
   # mode: standalone 
   mode: dump-only
 
+  dumpTimeout: "300"
+
   # define an extra volume for database dumps
   # it is mounted on /backup/dbdump
   dumpVolume:

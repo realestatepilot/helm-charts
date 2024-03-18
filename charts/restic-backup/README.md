@@ -16,6 +16,9 @@ At restore via velero the dump files will be restored at /backup/dbdump. Operato
 
 # Change Log
 
+## 0.3.2
+* velero annotation for preBackupHook timeout `backup.dumpTimeout`
+
 ## 0.3.1
 * velero annotation for preBackupHook 
 
