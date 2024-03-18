@@ -11,6 +11,7 @@ backup:
   # mode: standalone 
   mode: dump-only
 
+  # how long take database dump in maximum
   dumpTimeout: "300"
 
   # define an extra volume for database dumps

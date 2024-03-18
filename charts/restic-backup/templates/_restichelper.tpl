@@ -14,7 +14,6 @@ Expand the name of the chart.
 {{ printf "%s: %s-%s" "pre.hook.backup.velero.io/container" .Chart.Name "backup" }}
 {{ printf "%s: %s" "pre.hook.backup.velero.io/command" (( printf "[\"%s\", \"%s\", \"%s\"]" "/bin/sh" "-c" "/scripts/backup_client.py run --dump-only") | squote ) }}
 {{ printf "%s: %s" "pre.hook.backup.velero.io/timeout"  .Values.nackup.dumpTimeout }}
-
 {{- end }}
 
 {{- end }}
