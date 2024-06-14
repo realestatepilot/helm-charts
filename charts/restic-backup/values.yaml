@@ -8,8 +8,8 @@ backup:
   # standalone (default) - schedules backup and saves via restic to s3
   # dump-only - uses database dump function and save dump to (mounted) path /backup. ends with error-code from dump
 
-  # mode: standalone 
-  mode: dump-only
+  mode: standalone  # <---- do not change, this has to be default
+  # mode: dump-only # use it only for overwriting in umbrella charts
 
   # how long take database dump in maximum
   dumpTimeout: "15m"
