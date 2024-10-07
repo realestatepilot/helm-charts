@@ -26,8 +26,9 @@ backup:
     - name: registry-wolke8
   
   image:
-    repository: registry.wolke8.it/realestatepilot-common/wolke8/docker-restic-backupclient
-    # tag: 0.7.1 # use chart version by default
+    registry: "ghcr.io"
+    repository: "realestatepilot/restic-backupclient"
+    tag: 0.8.2 # use chart version by default
     pullPolicy: IfNotPresent
 
 monitor:
