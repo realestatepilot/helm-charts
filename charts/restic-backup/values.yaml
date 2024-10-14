@@ -28,7 +28,7 @@ backup:
   image:
     registry: "ghcr.io"
     repository: "realestatepilot/restic-backupclient"
-    tag: 0.8.2 # use chart version by default
+    tag: 0.8.1 # use chart version by default
     pullPolicy: IfNotPresent
 
 monitor:
