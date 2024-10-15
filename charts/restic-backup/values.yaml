@@ -19,15 +19,14 @@ backup:
   dumpVolume:
     enabled: true
     persistentVolumeClaim:
-      storageClassName: local-path-slow
+      storageClassName: local-path-fast
       storage: 10G
   
   imagePullSecrets:
     - name: registry-wolke8
   
   image:
-    registry: "ghcr.io"
-    repository: "realestatepilot/restic-backupclient"
+    repository: "ghcr.io/realestatepilot/restic-backupclient"
     tag: 0.8.1 # use chart version by default
     pullPolicy: IfNotPresent
 
