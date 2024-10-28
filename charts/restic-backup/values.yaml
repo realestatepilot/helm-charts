@@ -135,6 +135,15 @@ s3:
 #     last: 5
 #     daily: 7
 #     weekly: 4
+#
+#   # smtp configuration to send mails when backup fails
+#   smtp:
+#     host: smtp.host.com
+#     username: user@host.com
+#     password: guest
+#     from: user@host@com
+#     recipient: recipient@example.com
+#
 #   elasticdump:
 #     url: http://es-prod:9200
 #     exclude:
