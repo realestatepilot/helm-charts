@@ -87,48 +87,6 @@ spec:
           securityContext:
               {{- toYaml .Values.securityContext | nindent 12 }}
 
-  {{- if eq "standalone" .Values.backup.mode }}
-        - name: {{ .Chart.Name }}-monitor
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.monitor.image.repository }}:{{ required "required monitor.image.tag" .Values.monitor.image.tag }}"
-          imagePullPolicy: {{ default "IfNotPresent" .Values.monitor.image.pullPolicy  }}
-          env:
-            - name: AWS_REGION
-              value: {{ .Values.s3.region }}
-            - name: AWS_ACCESS_KEY_ID
-              value: {{ required "s3.accessKey" .Values.s3.accessKey }}
-            - name: AWS_SECRET_ACCESS_KEY
-              value: {{ required "s3.secretKey" .Values.s3.secretKey }}
-            - name: S3_URL
-              value: {{ required "s3.url" .Values.s3.url }}
-            - name: BUCKET_NAMES
-              value: {{ .Values.s3.bucketName }}
-
-          ports:
-            - name: http
-              containerPort: {{.Values.monitor.service.port}}
-              protocol: TCP
-          livenessProbe:
-            initialDelaySeconds: 5
-            failureThreshold: 3
-            timeoutSeconds: 10
-            periodSeconds: 300
-            httpGet:
-              path: /metrics
-              port: http
-          readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 5
-            timeoutSeconds: 10
-            periodSeconds: 60
-            httpGet:
-              path: /metrics
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-  {{- end }} 
-
       volumes:
         - name: backup
           {{- if .Values.backup.dumpVolume.enabled }}
