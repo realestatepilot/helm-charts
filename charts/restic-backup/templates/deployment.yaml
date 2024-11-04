@@ -123,15 +123,27 @@ spec:
 
           {{- end }}
 {{- end }}
+
 {{- if .Values.restore }}
+{{- if .Values.restore.hostPath -}} # backward compatibility
         - name: restore
           hostPath:
             path: {{ .Values.restore.hostPath }}
+{{- else }}
+        - name: restore
+          {{- toYaml .Values.restore | nindent 10 }}
 {{- end }}
+{{- end }}
+
 {{- if .Values.cacheDir }}
+{{- if .Values.cacheDir.hostPath }}
         - name: cachedir
           hostPath:
             path: {{ .Values.cacheDir.hostPath }}
+{{- else }}
+        - name: cachedir
+          {{- toYaml .Values.cacheDir | nindent 10 }}
+{{- end }}
 {{- end }}
 
       {{- with .Values.nodeSelector }}

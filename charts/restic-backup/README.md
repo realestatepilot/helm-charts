@@ -19,6 +19,9 @@ At restore via velero the dump files will be restored at /backup/dbdump. Operato
 ## 0.4.0
 * restic monitor was removed from helm chart
 
+## 0.3.9
+* add possibility to define own restore / cachdir volume mount
+
 ## 0.3.2 / 0.3.3
 * velero annotation for preBackupHook timeout `backup.dumpTimeout`
 
