@@ -45,8 +45,8 @@ jobs:
       - name: Create StorageClass
         if: steps.list-changed.outputs.changed == 'true'
         run: |
+          kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.30/deploy/local-path-storage.yaml
           kubectl apply -f .github/configs/storageclass.yaml
-          kubectl apply -f .github/configs/persistentvolume.yaml
 
       - name: Run chart-testing (install)
         run: ct install --config ./.github/configs/ct.yaml --target-branch main

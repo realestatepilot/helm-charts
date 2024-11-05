@@ -2,6 +2,6 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: local-path-fast
-provisioner: docker.io/hostpath
+provisioner: rancher.io/local-path
+volumeBindingMode: WaitForFirstConsumer
 reclaimPolicy: Delete
-volumeBindingMode: Immediate
