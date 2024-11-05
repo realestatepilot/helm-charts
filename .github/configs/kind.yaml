@@ -3,4 +3,7 @@ kind: Cluster
 
 nodes:
   - role: control-plane
+    extraMounts:
+      - hostPath: /data
+        containerPath: /data
   - role: worker
