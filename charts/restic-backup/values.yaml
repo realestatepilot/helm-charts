@@ -19,7 +19,7 @@ backup:
   dumpVolume:
     enabled: true
     persistentVolumeClaim:
-      storageClassName: local-path-fast
+      storageClassName: local-path-slow
       storage: 10G
 
   imagePullSecrets:
