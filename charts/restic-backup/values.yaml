@@ -30,9 +30,7 @@ backup:
     tag: 0.8.1  # use chart version by default
     pullPolicy: IfNotPresent
 
-podAnnotations:
-  prometheus.io/port: "8080"
-  prometheus.io/scrape: "true"
+podAnnotations: {}
 
 serviceAccount:
   # Specifies whether a service account should be created
