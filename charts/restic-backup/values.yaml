@@ -27,7 +27,7 @@ backup:
 
   image:
     repository: "ghcr.io/realestatepilot/restic-backupclient"
-    tag: 0.8.1  # use chart version by default
+    # tag: 0.8.2  # use app version by default
     pullPolicy: IfNotPresent
 
 podAnnotations: {}
