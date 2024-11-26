@@ -16,6 +16,9 @@ At restore via velero the dump files will be restored at /backup/dbdump. Operato
 
 # Change Log
 
+## unreleased
+* remove `resources.limits.cpu`
+
 ## 0.4.0
 * restic monitor was removed from helm chart
 * docker-restic-backupclient 0.8.2 supports notify on error
