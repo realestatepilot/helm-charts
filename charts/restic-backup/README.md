@@ -16,8 +16,15 @@ At restore via velero the dump files will be restored at /backup/dbdump. Operato
 
 # Change Log
 
-## unreleased
+## 0.5.0
 * remove `resources.limits.cpu`
+* mount config as secret
+    - if `configmap` is set, the config is still mounted as a `ConfigMap`
+* add `extraConfSecret`
+    - will try to read config from already existing secret
+    - will merge extra-config with normal config in initContainer
+    - mount the merged config instead of the normal config
+    - if keys are defined in config and extra-config, config takes precedence
 
 ## 0.4.0
 * restic monitor was removed from helm chart

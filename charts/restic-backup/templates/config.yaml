@@ -1,16 +1,8 @@
 {{ if not .Values.configmap }}
 apiVersion: v1
-kind: ConfigMap
+kind: Secret
 metadata:
   name: {{ include "restic.name" . }}-config
 data:
-  backup.yaml: |
-{{ if .Values.config }}
-{{ toYaml .Values.config | indent 4 }}
-{{ else }}
-    keep:
-      last: 5
-      daily: 7
-      weekly: 4
-{{ end }}
+  backup.yaml: {{ include "restic.config" . | b64enc | quote }}
 {{ end }}

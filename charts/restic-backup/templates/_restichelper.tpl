@@ -17,3 +17,17 @@ Expand the name of the chart.
 {{- end }}
 
 {{- end }}
+
+{{/*
+Backup Configuration
+*/}}
+{{ define "restic.config" -}}
+{{ if .Values.config }}
+{{ toYaml .Values.config }}
+{{- else }}
+keep:
+  last: 5
+  daily: 7
+  weekly: 4
+{{ end }}
+{{- end -}}

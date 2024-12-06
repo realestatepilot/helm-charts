@@ -22,8 +22,7 @@ backup:
       storageClassName: local-path-fast
       storage: 10G
 
-  imagePullSecrets:
-    - name: registry-wolke8
+  imagePullSecrets: []
 
   image:
     repository: "ghcr.io/realestatepilot/restic-backupclient"
@@ -112,6 +111,10 @@ s3:
 #     exclude:
 #       - ^his_
 #       - ^all_his
+
+# if extraConfSecret is set, a secret of that name is read and merged with the already existing configuration
+#  if the same keys are defined, the main config takes precedence
+extraConfSecret: ""
 #
 # volumes: List of optional volumes - all values are parsed as template.
 #   - name: data # the name is used as mount point directory name at /backup/{{ name }}

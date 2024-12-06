@@ -28,6 +28,23 @@ spec:
       serviceAccountName: {{ include "restic.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.extraConfSecret }}
+      initContainers:
+        - name: merge-extra-config
+          image: mikefarah/yq
+          command:
+            - "/bin/sh"
+            - "-ec"
+            - |
+              yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' /extra-conf/backup.yaml /conf/backup.yaml > /config/backup.yaml
+          volumeMounts:
+            - name: backup-config-overwrite
+              mountPath: /config
+            - name: backup-config
+              mountPath: /conf
+            - name: backup-extra-conf
+              mountPath: /extra-conf
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}-backup
           image: "{{ .Values.backup.image.repository }}:{{ .Values.backup.image.tag | default .Chart.AppVersion }}"
@@ -64,8 +81,13 @@ spec:
           volumeMounts:
             - name: backup
               mountPath: /backup
+            {{- if .Values.extraConfSecret }}
+            - name: backup-config-overwrite
+              mountPath: /config
+            {{- else }}
             - name: backup-config
               mountPath: /config
+            {{- end }}
             {{- if .Values.scripts }}            
             - name: customscripts
               mountPath: /customscripts
@@ -96,11 +118,19 @@ spec:
           emptyDir: {}
           {{- end }}
         - name: backup-config
-          configMap:
 {{- if .Values.configmap }}
+          configMap:
             name: "{{ tpl .Values.configmap . }}"
 {{- else }}
-            name: {{ include "restic.name" . }}-config
+          secret:
+            secretName: {{ include "restic.name" . }}-config
+{{- end }}
+{{- if .Values.extraConfSecret }}
+        - name: backup-extra-conf
+          secret:
+            secretName: {{ .Values.extraConfSecret }}
+        - name: backup-config-overwrite
+          emptyDir: {}
 {{- end }}
 {{- if .Values.scripts }}
         - name: customscripts
