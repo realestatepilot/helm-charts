@@ -51,7 +51,8 @@ spec:
           imagePullPolicy: {{ .Values.backup.image.pullPolicy | default "IfNotPresent" }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          command: 
+          command: ["/sbin/tini", "--"]
+          args:
 {{- if eq "standalone" .Values.backup.mode }}
             - /scripts/backup_client.py
             - schedule
